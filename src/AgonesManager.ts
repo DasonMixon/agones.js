@@ -2,7 +2,7 @@ import { Client } from "./k8sclient/Client";
 import { CreateGameServerResponse } from "./models/GameServerAllocation/CreateGameServerResponse";
 
 class AgonesManager {
-    _client: Client;
+    private _client: Client;
 
     get client() {
         return this._client;
