@@ -2,10 +2,14 @@ import { Client } from "./k8sclient/Client";
 import { CreateGameServerResponse } from "./models/GameServerAllocation/CreateGameServerResponse";
 
 class AgonesManager {
-    public client: Client;
+    _client: Client;
 
-    constructor() {
-        this.client = new Client();
+    get client() {
+        return this._client;
+    }
+
+    public startClient = () => {
+        this._client = new Client();
     }
 
     public requestGameServer = async (fleetName: string): Promise<CreateGameServerResponse> => {
@@ -19,13 +23,13 @@ class AgonesManager {
 
                             resolve(CreateGameServerResponse.success(address, port));
                         case 'Unallocated':
-                            reject(CreateGameServerResponse.failure('Unable to allocate game server'));
+                            resolve(CreateGameServerResponse.failure('Unable to allocate game server'));
                         default:
-                            reject(CreateGameServerResponse.failure('Unknown allocation state'));
+                            resolve(CreateGameServerResponse.failure('Unknown allocation state'));
                     }
                 },
                 (err) => {
-                    reject(CreateGameServerResponse.failure(`An unexpected error occurred allocating game server: ${err}`));
+                    reject(`An unexpected error occurred allocating game server: ${err}`);
                 }
             );
         });

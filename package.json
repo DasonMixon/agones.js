@@ -8,13 +8,14 @@
   ],
   "types": "lib/**/*.d.ts",
   "scripts": {
-    "build": "tslint -c tslint.json -p tsconfig.json --fix && tsc",
+    "build": "tsc",
+    "lint": "tslint -c tslint.json -p tsconfig.json --fix",
     "test": "ts-node node_modules/jasmine/bin/jasmine --config=jasmine.json",
     "coverage": "nyc -r text -e .ts -x \"tests/*.test.ts\" npm run test",
     "prepare": "npm run build",
     "prepublishOnly": "npm test && npm run lint",
     "preversion": "npm run lint",
-    "version": "npm run format && git add -A src",
+    "version": "git add -A src",
     "postversion": "git push && git push --tags"
   },
   "repository": {
