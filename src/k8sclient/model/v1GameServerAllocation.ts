@@ -1,4 +1,4 @@
-import { V1GameServerAllocationSpec } from './v1GameServerAllocationSpec';
+import { V1GameServerAllocationSpec } from './V1GameServerAllocationSpec';
 import { V1ObjectMeta } from '@kubernetes/client-node/dist/gen/model/v1ObjectMeta';
 import { V1GameServerAllocationSpecRequired } from './V1GameServerAllocationSpecRequired';
 import { V1GameServerAllocationSpecMatchLabels } from './V1GameServerAllocationSpecMatchLabels';
@@ -13,7 +13,7 @@ export class V1GameServerAllocation {
     // This should only be part of the response, not sent on the request
     status?: V1GameServerAllocationStatus;
 
-    constructor(fleetName?: string) {
+    constructor(fleetName?: string, namespace?: string) {
         this.apiVersion = 'allocation.agones.dev/v1';
         this.kind = 'GameServerAllocation';
         this.spec = new V1GameServerAllocationSpec();
@@ -22,6 +22,9 @@ export class V1GameServerAllocation {
 
         if (fleetName)
             this.spec.required.matchLabels["agones.dev/fleet"] = fleetName;
+
+        if (namespace)
+            this.metadata.namespace = namespace;
     }
 
     static discriminator: string | undefined = undefined;
