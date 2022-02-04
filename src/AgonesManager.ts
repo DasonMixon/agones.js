@@ -15,6 +15,15 @@ class AgonesManager {
         this._client = new Client();
     }
 
+    public getFleet = async (namespace: string, fleetName: string): Promise<V1Fleet> => {
+        try {
+            const { body: result } = await this.client.getApi().getFleet(namespace, fleetName);
+            return result;
+        } catch (error) {
+            throw Error(`An unexpected error occurred fetching fleet: ${error}`);
+        }
+    }
+
     public getFleets = async (namespace?: string): Promise<V1Fleet[]> => {
         try {
             const { body: result } = await this.client.getApi().getFleets(namespace);

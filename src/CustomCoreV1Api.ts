@@ -11,6 +11,12 @@ import { V1GameServer } from './k8sclient/model/V1GameServer';
 
 export class CustomCoreV1Api extends CoreV1Api {
 
+    public async getFleet (namespace: string, fleetName: string): Promise<{ response: http.IncomingMessage; body: V1Fleet; }> {
+        const url = `/apis/agones.dev/v1/namespaces/${namespace}/fleets/${fleetName}`
+        const request = this.buildRequest(url, null, 'Object', 'GET')
+        return this.executeRequest(request, 'V1Fleet')
+    }
+    
     public async getFleets (namespace?: string): Promise<{ response: http.IncomingMessage; body: V1GetFleetsResponse; }> {
         const url = namespace ? `/apis/agones.dev/v1/namespaces/${namespace}/fleets` : '/apis/agones.dev/v1/fleets'
         const request = this.buildRequest(url, null, 'Object', 'GET')
@@ -32,6 +38,7 @@ export class CustomCoreV1Api extends CoreV1Api {
         return this.executeRequest(request, 'V1Fleet')
     }
 
+    // TODO: See if you can get game servers within a specific fleet
     public async getGameServers (namespace?: string): Promise<{ response: http.IncomingMessage; body: V1GameServer[]; }> {
         const url = namespace ? `/apis/agones.dev/v1/namespaces/${namespace}/gameservers` : '/apis/agones.dev/v1/gameservers'
         const request = this.buildRequest(url, null, 'Object', 'GET')
