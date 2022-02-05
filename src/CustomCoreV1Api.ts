@@ -16,7 +16,7 @@ export class CustomCoreV1Api extends CoreV1Api {
         const request = this.buildRequest(url, null, 'Object', 'GET')
         return this.executeRequest(request, 'V1Fleet')
     }
-    
+
     public async getFleets (namespace?: string): Promise<{ response: http.IncomingMessage; body: V1GetFleetsResponse; }> {
         const url = namespace ? `/apis/agones.dev/v1/namespaces/${namespace}/fleets` : '/apis/agones.dev/v1/fleets'
         const request = this.buildRequest(url, null, 'Object', 'GET')
@@ -27,12 +27,12 @@ export class CustomCoreV1Api extends CoreV1Api {
         const request = this.buildRequest(`/apis/agones.dev/v1/namespaces/${body.metadata!.namespace}/fleets`, body, 'V1Fleet', 'POST')
         return this.executeRequest(request, 'V1Fleet')
     }
-    
+
     public async patchFleet (patches: V1PatchFleet[], fleetName: string, namespace: string): Promise<{ response: http.IncomingMessage; body: V1Fleet; }> {
         const request = this.buildRequest(`/apis/agones.dev/v1/namespaces/${namespace}/fleets/` + fleetName, patches, 'Array<V1PatchFleet>', 'PATCH')
         return this.executeRequest(request, 'V1Fleet')
     }
-    
+
     public async deleteFleet (fleetName: string, namespace: string): Promise<{ response: http.IncomingMessage; body: V1Fleet; }> {
         const request = this.buildRequest(`/apis/agones.dev/v1/namespaces/${namespace}/fleets/` + fleetName, {}, 'Object', 'DELETE')
         return this.executeRequest(request, 'V1Fleet')
@@ -52,19 +52,19 @@ export class CustomCoreV1Api extends CoreV1Api {
         const request = this.buildRequest(`/apis/allocation.agones.dev/v1/namespaces/${namespace}/gameserverallocations`, gameAllocation, 'V1GameServerAllocation', 'POST')
         return this.executeRequest(request, 'V1GameServerAllocation')
     }
-    
+
     private executeRequest<ResponseType> (request: localVarRequest.Options, responseDeserializedType: string): Promise<{ response: http.IncomingMessage; body: ResponseType; }> {
         let authenticationPromise = Promise.resolve()
         if (this.authentications.BearerToken.apiKey) {
             authenticationPromise = authenticationPromise.then(() => this.authentications.BearerToken.applyToRequest(request))
         }
         authenticationPromise = authenticationPromise.then(() => this.authentications.default.applyToRequest(request))
-    
+
         let interceptorPromise = authenticationPromise
         for (const interceptor of this.interceptors) {
             interceptorPromise = interceptorPromise.then(() => interceptor(request))
         }
-    
+
         return interceptorPromise.then(() => {
             return new Promise<{ response: http.IncomingMessage; body: ResponseType; }>((resolve, reject) => {
                 // tslint:disable-next-line:no-shadowed-variable
@@ -83,7 +83,7 @@ export class CustomCoreV1Api extends CoreV1Api {
             })
         })
     }
-    
+
     private buildRequest (path: string, body: any, bodySerializedType: string, method: string): localVarRequest.Options {
         const localVarPath = this.basePath + path
         const localVarQueryParameters: any = {}
@@ -98,12 +98,12 @@ export class CustomCoreV1Api extends CoreV1Api {
         if (method.toUpperCase() === 'PATCH') {
             localVarHeaderParams['Content-type'] = PatchUtils.PATCH_FORMAT_JSON_PATCH
         }
-    
+
         // verify required parameter 'body' is not null or undefined for non-GET types
         if (method.toUpperCase() !== 'GET' && (body === null || body === undefined)) {
             throw new Error('Required parameter body was null or undefined when calling buildRequest for non-GET request.')
         }
-    
+
         const localVarRequestOptions: localVarRequest.Options = {
             method: method.toUpperCase(),
             qs: localVarQueryParameters,
@@ -113,7 +113,7 @@ export class CustomCoreV1Api extends CoreV1Api {
             json: true,
             body: ObjectSerializer.serialize(body, bodySerializedType)
         }
-    
+
         return localVarRequestOptions
     }
 }

@@ -25,12 +25,12 @@ export class V1Fleet {
 
       const resources = new V1ResourceRequirements()
       resources.requests = {
-        cpu: cpu,
-        memory: memory
+        cpu,
+        memory
       }
       resources.limits = {
-        cpu: cpu,
-        memory: memory
+        cpu,
+        memory
       }
 
       this.spec.template.spec.ports = [
@@ -44,9 +44,9 @@ export class V1Fleet {
       this.spec.template.spec.template.spec = new V1PodSpec()
       this.spec.template.spec.template.spec.containers = [
         {
-          name: name,
-          image: image,
-          resources: resources
+          name,
+          image,
+          resources
         }
       ]
 
