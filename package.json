@@ -1,6 +1,6 @@
 {
   "name": "agones.js",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "Agones server interaction library",
   "main": "lib/index.js",
   "files": [
